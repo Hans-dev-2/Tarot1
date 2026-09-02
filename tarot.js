@@ -7,7 +7,7 @@ const TarotApp = {
   state: {
     currentSpread: [],          // Holds the 3 drawn card objects from meanings.js
     revealedIndices: new Set(), // Tracks which card slots (0, 1, 2) have been flipped
-    cardBackPath: "https://hansostudio.github.io/Tarot1/assets/card-back.png"
+    cardBackPath: "https://hansostudio.github.io/tarot1/assets/card-back.png"
   },
 
   /**
