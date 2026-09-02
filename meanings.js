@@ -7,7 +7,7 @@
  * 64-77: Pentacles (64 = Ace)
  */
 
-const ASSET_BASE_URL = "https://hansostudio.github.io/Tarot1/assets";
+const ASSET_BASE_URL = "https://hansostudio.github.io/tarot1/assets";
 const CARD_DEFINITIONS = [
   // --- MAJOR ARCANA (0 - 21) ---
   {
