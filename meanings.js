@@ -1066,7 +1066,7 @@ const CARD_DEFINITIONS = [
       meaning: "poorly timed resource allocation or hesitation around practical steps",
       narrativeSnippet: "a grounded chance that risks slipping through unreadiness"
     }
-  }
+  },
 {
     id: 65,
     name: "Two of Pentacles",
