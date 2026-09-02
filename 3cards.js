@@ -1,6 +1,8 @@
 /**
- * ThreeCardSynthesis 2.1
- * Clear, warm, accessible narrative synthesizer for 3-Card Spreads
+ * ThreeCardSynthesis 2.3
+ * Clear, warm, accessible narrative synthesizer
+ * Now with Sidereal climate + House relationship as a main thread
+ * Requires house.js to be loaded first
  */
 const ThreeCardSynthesis = {
   positions: ["Past / Foundation", "Present / Crucible", "Future / Trajectory"],
@@ -14,12 +16,20 @@ const ThreeCardSynthesis = {
     const hasQuestion = question && question.trim().length > 0;
     const cleanQuestion = hasQuestion ? question.trim() : "";
 
-    // Paragraph 1 – Opening + Past
+    // --- Get Sidereal climate + House context ---
+    const context = (typeof HouseSystem !== "undefined")
+      ? HouseSystem.getFullContext(cleanQuestion)
+      : null;
+
+    const climateText = context ? context.relationshipText : "";
+    const hasHouseContext = context && context.houseNumber > 0;
+
+    // Paragraph 1 – Opening + Past (+ climate)
     let p1;
     if (hasQuestion) {
-      p1 = `You asked: “${cleanQuestion}”. The cards begin in the past with **${past.name} (${past.orientation})**. This card shows the foundation you have been standing on. It grew out of ${past.details.meaning}. In simple terms, it set the stage by creating ${past.details.narrativeSnippet}.`;
+      p1 = `You asked: “${cleanQuestion}”. ${climateText} The cards begin in the past with **${past.name} (${past.orientation})**. This card shows the foundation you have been standing on. It grew out of ${past.details.meaning}. In simple terms, it set the stage by creating ${past.details.narrativeSnippet}.`;
     } else {
-      p1 = `The reading begins in the past with **${past.name} (${past.orientation})**. This card shows the foundation you have been standing on. It grew out of ${past.details.meaning}. In simple terms, it set the stage by creating ${past.details.narrativeSnippet}.`;
+      p1 = `The reading begins in the past with **${past.name} (${past.orientation})**. ${climateText} This card shows the foundation you have been standing on. It grew out of ${past.details.meaning}. In simple terms, it set the stage by creating ${past.details.narrativeSnippet}.`;
     }
 
     // Paragraph 2 – Present
@@ -28,7 +38,7 @@ const ThreeCardSynthesis = {
     // Paragraph 3 – Future
     const p3 = `Looking ahead, **${future.name} (${future.orientation})** shows the direction things are moving. The lessons from ${past.name} are passing through your current experience with ${present.name}, and they are leading toward ${future.details.meaning}. At its heart, this points to ${future.details.narrativeSnippet}.`;
 
-    // Paragraph 4 – Orientation (upright vs reversed)
+    // Paragraph 4 – Orientation
     const p4 = this._analyzeOrientationFlow(past, present, future);
 
     // Paragraph 5 – How the cards work together
@@ -40,10 +50,13 @@ const ThreeCardSynthesis = {
     // Paragraph 7 – Pace and timing
     const p7 = this._analyzeTemporalMomentum(past, present, future);
 
-    // Paragraph 8 – Guidance + closing
-    const p8 = this._generateGuidanceAndSummary(past, present, future, cleanQuestion);
+    // Paragraph 8 – Shadow & Gift
+    const p8 = this._analyzeShadowAndGift(past, present, future);
 
-    return [p1, p2, p3, p4, p5, p6, p7, p8];
+    // Paragraph 9 – Guidance + closing (now climate-aware)
+    const p9 = this._generateGuidanceAndSummary(past, present, future, cleanQuestion, context);
+
+    return [p1, p2, p3, p4, p5, p6, p7, p8, p9];
   },
 
   _analyzeOrientationFlow(past, present, future) {
@@ -121,18 +134,42 @@ const ThreeCardSynthesis = {
     return "The energy of this spread moves at a steady, human pace. It gives you room to participate consciously instead of being swept along too quickly.";
   },
 
-  _generateGuidanceAndSummary(past, present, future, question) {
+  _analyzeShadowAndGift(past, present, future) {
+    const challengeCard = present;
+    const giftCard = future;
+
+    const challengeText = challengeCard.isReversed
+      ? `${challengeCard.name} reversed often points to a difficulty around ${challengeCard.details.keywords[0].toLowerCase()} — something that may feel blocked, delayed, or turned inward right now.`
+      : `${challengeCard.name} highlights a live challenge connected to ${challengeCard.details.keywords[0].toLowerCase()}. This is the area asking for your attention.`;
+
+    const giftText = giftCard.isReversed
+      ? `Even though ${giftCard.name} appears reversed, it still carries a gift: the chance to develop greater patience and deeper understanding around ${giftCard.details.keywords[0].toLowerCase()} before it fully unfolds on the outside.`
+      : `The potential gift in this spread lives in ${giftCard.name}. It offers the possibility of ${giftCard.details.keywords[0].toLowerCase()} if the present work is taken up honestly.`;
+
+    return `${challengeText} ${giftText}`;
+  },
+
+  /**
+   * Guidance + Summary – now climate and House aware
+   */
+  _generateGuidanceAndSummary(past, present, future, question, context) {
     const presentFocus = present.details.keywords[0].toLowerCase();
     const futureDirection = future.details.keywords[0].toLowerCase();
 
     let guidance = `Right now, ${present.name} is asking you to pay attention to **${presentFocus}**. `;
 
+    // Add climate/House flavour when available
+    if (context && context.houseNumber > 0) {
+      guidance += `Because this question sits in the area of ${context.house.description}, and it is being asked during Sidereal ${context.climate.sign} season, the way forward involves working with both the cards and the larger seasonal weather. `;
+    }
+
     if (future.isReversed) {
-      guidance += `Because the future card is reversed, the most helpful approach is to keep working with this theme quietly and steadily rather than pushing for a fast outer result.`;
+      guidance += `The future card is reversed, so the most helpful approach is to keep working with this theme quietly and steadily rather than pushing for a fast outer result.`;
     } else {
       guidance += `Doing so naturally supports the direction shown by ${future.name}, which points toward **${futureDirection}**.`;
     }
 
+    // Closing summary
     let summary;
     if (question) {
       summary = `**In short:** Looking at your question “${question}”, the cards show a path that moves from ${past.details.keywords[0].toLowerCase()} through ${present.details.keywords[0].toLowerCase()} and toward ${future.details.keywords[0].toLowerCase()}. Respect what ${past.name} taught you, work honestly with ${present.name}, and you will be better able to meet what ${future.name} is offering.`;
