@@ -1289,6 +1289,9 @@ function getCardByImageIndex(index) {
   // Fallback to card 0 if array index isn't filled out yet
   const cardData = CARD_DEFINITIONS[baseId] || CARD_DEFINITIONS[0];
 
+  // Pad the base ID to three digits (or use normalizedIndex if your files are named that way)
+  const formattedIndex = String(baseId).padStart(3, "0");   // ← add this line
+
   return {
     imageIndex: normalizedIndex,
     imagePath: `${ASSET_BASE_URL}/tarot${formattedIndex}.png`,
