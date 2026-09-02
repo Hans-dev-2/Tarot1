@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarot Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Tarot Reader</h1>
+    <button id="draw-btn" class="primary-btn">Draw 3-Card Spread</button>
+  </header>
+
+  <main class="app-container">
+    <!-- Card Spread Grid -->
+    <section id="cards-container" class="cards-grid">
+      <!-- Dynamically populated face-down slots -->
+    </section>
+
+    <!-- Narrative Synthesis Reveal Area -->
+    <section id="narrative-container" class="narrative-section">
+      <p class="status-text">Click 'Draw 3-Card Spread' to begin your reading.</p>
+    </section>
+  </main>
+
+  <!-- Script Execution Order -->
+  <script src="js/meanings.js"></script>
+  <script src="js/3cards.js"></script>
+  <script src="js/tarot.js"></script>
+</body>
+</html>
