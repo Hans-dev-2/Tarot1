@@ -7,7 +7,8 @@ const TarotApp = {
   state: {
     currentSpread: [],          // Holds the 3 drawn card objects from meanings.js
     revealedIndices: new Set(), // Tracks which card slots (0, 1, 2) have been flipped
-    cardBackPath: "https://hansostudio.github.io/tarot1/assets/card-back.png"
+    cardBackPath: "https://hansostudio.github.io/tarot1/assets/card-back.png",
+    querentQuestion: ""          // ← add this
   },
 
   /**
@@ -39,13 +40,13 @@ const TarotApp = {
    * Initializes a fresh face-down spread and resets status UI
    */
   handleDraw() {
-    // 1. Pick cards and hydrate objects
+    // Capture the question at the moment of drawing
+    const questionEl = document.getElementById("querent-question");
+    this.state.querentQuestion = questionEl ? questionEl.value.trim() : "";
+  
     this.drawCards(3);
-
-    // 2. Render face-down 3D card slots in DOM
     this.renderFaceDownUI();
-
-    // 3. Reset narrative container text while user interacts with cards
+  
     const narrativeContainer = document.getElementById("narrative-container");
     if (narrativeContainer) {
       narrativeContainer.innerHTML = `<p class="status-text">Click each card to reveal your spread...</p>`;
@@ -116,7 +117,10 @@ const TarotApp = {
    */
   triggerSynthesis() {
     // Call dedicated narrative synthesizer engine from 3cards.js
-    const narrativeParagraphs = ThreeCardSynthesis.generateReading(this.state.currentSpread);
+    const narrativeParagraphs = ThreeCardSynthesis.generateReading(
+    this.state.currentSpread,
+    this.state.querentQuestion   // ← pass the question
+  );
     const container = document.getElementById("narrative-container");
     if (!container) return;
 
