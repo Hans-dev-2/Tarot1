@@ -14,6 +14,44 @@ body {
   flex-direction: column;
 }
 
+/* ===== Question Box ===== */
+.question-box {
+  max-width: 480px;
+  margin: 0 auto 1.4rem;
+  text-align: left;
+}
+
+.question-box label {
+  display: block;
+  font-size: 0.85rem;
+  color: #a0a0b8;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+}
+
+.question-box textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #f0f0f5;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s ease;
+}
+
+.question-box textarea:focus {
+  outline: none;
+  border-color: #7b6fd4;
+}
+
+.question-box textarea::placeholder {
+  color: #70708a;
+}
+
 /* ===== Header ===== */
 .app-header {
   text-align: center;
@@ -40,6 +78,44 @@ body {
 
 .primary-btn:hover {
   background: #5c4fad;
+}
+
+
+.question-box {
+  max-width: 480px;
+  margin: 0 auto 1.4rem;
+  text-align: left;
+}
+
+.question-box label {
+  display: block;
+  font-size: 0.85rem;
+  color: #a0a0b8;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+}
+
+.question-box textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #f0f0f5;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s ease;
+}
+
+.question-box textarea:focus {
+  outline: none;
+  border-color: #7b6fd4;
+}
+
+.question-box textarea::placeholder {
+  color: #70708a;
 }
 
 /* ===== Main Layout – Centers cards vertically & horizontally ===== */
