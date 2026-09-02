@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tarot Generator</title>
   <link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
 
-  <header class="app-header">
-    <h1>Tarot Reader</h1>
-    <button id="draw-btn" class="primary-btn">Draw 3-Card Spread</button>
-  </header>
+<header class="app-header">
+  <h1>Tarot Reader</h1>
+
+  <div class="question-box">
+    <label for="querent-question">Your Question (optional)</label>
+    <textarea 
+      id="querent-question" 
+      rows="2" 
+      placeholder="What guidance are you seeking today?"
+      maxlength="280"
+    ></textarea>
+  </div>
+
+  <button id="draw-btn" class="primary-btn">Draw 3-Card Spread</button>
+</header>
 
   <main class="app-container">
     <!-- Card Spread Grid -->
@@ -22,7 +34,8 @@
     <!-- Narrative Synthesis Reveal Area -->
     <section id="narrative-container" class="narrative-section">
       <p class="status-text">Click 'Draw 3-Card Spread' to begin your reading.</p>
-    </section>
+    </section>  
+    
   </main>
 
   <!-- Script Execution Order -->
