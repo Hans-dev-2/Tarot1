@@ -1,4 +1,4 @@
-# Tarot1
+# tarot1
 supports tarot1.neocities.org
 
 We are building a web-based Tarot Card Generator using plain HTML, CSS, and vanilla JavaScript. 
